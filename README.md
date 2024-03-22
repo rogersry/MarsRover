@@ -1,6 +1,6 @@
 # MarsRover
 
-The MarsRover project will simulate the Mars Rover on a smaller scale.  
+The MarsRover project will mimic the Mars Rover on a smaller scale.  
 
 Phase 1 - Angular UI/C# API/C# Service/Azure SQL Database/Raspberry Pi
 (No fancy web ui or authentication for now, the goal is to get it roughly working)
