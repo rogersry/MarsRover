@@ -12,7 +12,7 @@ internal class Program
         // Add your connection strings to this file
         builder.Configuration.AddJsonFile("appsettings-connectionstrings.json");
 
-        // Add services to the container.
+        // Configure NServiceBus to use Azure Service Bus
         builder.Host.UseNServiceBus(context =>
         {
             var endpointConfiguration = new EndpointConfiguration("roverrequest");
@@ -26,6 +26,7 @@ internal class Program
             return endpointConfiguration;
         });
 
+        // Add services to the container.
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
