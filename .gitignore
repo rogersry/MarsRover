@@ -396,3 +396,9 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Secret Appsettings
+MarsRoverApi\MarsRoverApi\appsettings-connectionstrings.json
+MarsRoverApi\MarsRoverApi\appsettings-connectionstrings.Development.json
+/MarsRoverApi/MarsRoverApi/appsettings-connectionstrings.json
+/MarsRoverApi/MarsRoverApi/appsettings-connectionstrings.Development.json

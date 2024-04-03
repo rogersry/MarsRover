@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="MediatR" Version="12.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+	<PackageReference Include="NServiceBus" Version="7.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="MarsRoverMessages">
+      <HintPath>..\..\MarsRoverMessages\MarsRoverMessages\bin\Release\netstandard2.0\publish\MarsRoverMessages.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

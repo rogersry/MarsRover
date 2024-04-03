@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -10,8 +10,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="MediatR" Version="12.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+	  <PackageReference Include="NServiceBus.Transport.AzureServiceBus" Version="2.*" />
+	  <PackageReference Include="NServiceBus.Extensions.Hosting" Version="1.*" />
+	<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MarsRoverApi.Core\MarsRoverApi.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="MarsRoverMessages">
+      <HintPath>..\..\MarsRoverMessages\MarsRoverMessages\bin\Release\netstandard2.0\publish\MarsRoverMessages.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
