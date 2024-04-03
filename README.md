@@ -1,6 +1,6 @@
 # MarsRover
 
-- Work in progress -
+*Work in progress
 
 The MarsRover project will mimic the Mars Rover on a smaller scale.  
 
