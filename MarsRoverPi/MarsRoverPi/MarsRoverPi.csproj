@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-MarsRoverPi-96d760f6-0836-44d4-a045-60c20b2d447d</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+	  <PackageReference Include="NServiceBus.Transport.AzureServiceBus" Version="2.*" />
+	  <PackageReference Include="NServiceBus.Extensions.Hosting" Version="1.*" />
+	  <PackageReference Include="Iot.Device.Bindings" Version="2.2.0" />
+	  <PackageReference Include="System.Device.Gpio" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="MarsRoverMessages">
+      <HintPath>..\..\MarsRoverMessages\MarsRoverMessages\bin\Release\netstandard2.0\publish\MarsRoverMessages.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings-connectionstrings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+</Project>

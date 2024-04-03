@@ -1,0 +1,1 @@
+scp -r C:\dev\repos\MarsRover\MarsRoverPi\MarsRoverPi\bin\Debug\net8.0\publish\linux-arm64\* pi@raspberrypi:/home/pi/MarsRoverPi/
