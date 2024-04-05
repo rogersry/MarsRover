@@ -4,6 +4,17 @@
 
 The MarsRover project will mimic the Mars Rover on a smaller scale.  
 
+```mermaid
+graph TD;
+    AngularUI-->MarsRoverApi;
+    MarsRoverApi-->AzureServiceBus;
+    AzureServiceBus-->MarsRoverPi;
+    MarsRoverPi-->AzureServiceBus;
+    AzureServiceBus-->MarsRoverService;
+    MarsRoverService-->AzureSQLDatabase;
+    MarsRoverApi-->AzureSQLDatabase;
+```
+
 Phase 1 - Angular UI/C# API/C# Service/Azure SQL Database/Raspberry Pi
 (No fancy web ui or authentication for now, the goal is to get it roughly working)
 
