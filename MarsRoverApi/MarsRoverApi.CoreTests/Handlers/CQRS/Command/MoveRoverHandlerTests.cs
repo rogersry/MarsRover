@@ -42,9 +42,9 @@ namespace MarsRoverApi.Core.Handlers.CQRS.Command.Tests
 
             Assert.AreEqual(1, testableSession.SentMessages.Length);
             var sentMessage = testableSession.SentMessages[0].Message;
-            Assert.IsInstanceOfType<MoveRoverMessage>(sentMessage);
-            Assert.AreEqual(MarsRoverMessages.Direction.Forward, ((MoveRoverMessage)sentMessage).Direction);
-            Assert.AreEqual(1, ((MoveRoverMessage)sentMessage).Milliseconds);
+            Assert.IsInstanceOfType<MoveRoverRequestMessage>(sentMessage);
+            Assert.AreEqual(MarsRoverMessages.Direction.Forward, ((MoveRoverRequestMessage)sentMessage).Direction);
+            Assert.AreEqual(1, ((MoveRoverRequestMessage)sentMessage).Milliseconds);
             Assert.IsTrue(result);
         }
     }

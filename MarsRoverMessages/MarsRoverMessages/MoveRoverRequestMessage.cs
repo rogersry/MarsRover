@@ -2,7 +2,7 @@
 
 namespace MarsRoverMessages
 {
-    public class MoveRoverMessage : IMessage
+    public class MoveRoverRequestMessage : IMessage
     {
         public Direction Direction { get; set; }
         public int Milliseconds { get; set; }

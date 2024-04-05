@@ -1,3 +1,4 @@
+using MarsRoverMessages;
 using NServiceBus;
 using System.Device.Gpio;
 
@@ -23,7 +24,9 @@ namespace Receiver
                     
                     var connectionString = context.Configuration.GetConnectionString("AzureServiceBusConnectionString");
                     var transport = endpointConfiguration.UseTransport<AzureServiceBusTransport>().ConnectionString(connectionString);
-                    
+                    transport.Routing().RouteToEndpoint(
+                        assembly: typeof(MoveRoverResponseMessage).Assembly,
+                        destination: "roverresponse");
                     endpointConfiguration.AuditProcessedMessagesTo("audit");
 
                     // Operational scripting: https://docs.particular.net/transports/azure-service-bus/operational-scripting

@@ -39,10 +39,20 @@ namespace MarsRoverApi.Core.Handlers.CQRS.Command
 
         public async Task<bool> Handle(MoveRoverCommand request, CancellationToken cancellationToken)
         {
-            var message = _mapper.Map<MoveRoverMessage>(request);
+            var message = _mapper.Map<MoveRoverRequestMessage>(request);
 
             _logger.LogInformation($"MoveRoverHandler - Sending MoveRoverMessage to Rover.  Direction: {request.Direction}.  Milliseconds: {request.Milliseconds}");
-            await _messageSession.Send(message);
+            try
+            {
+
+                await _messageSession.Send(message);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"MoveRoverHandler - Error: {ex.Message}");
+                return false;
+            }
             _logger.LogInformation($"MoveRoverHandler - MoveRoverMessage Sent");
             
             return true;

@@ -20,7 +20,7 @@ internal class Program
             var connectionString = context.Configuration.GetConnectionString("AzureServiceBusConnectionString");
             var transport = endpointConfiguration.UseTransport<AzureServiceBusTransport>().ConnectionString(connectionString);
             transport.Routing().RouteToEndpoint(
-                assembly: typeof(MoveRoverMessage).Assembly,
+                assembly: typeof(MoveRoverRequestMessage).Assembly,
                 destination: "roverrequest");
             endpointConfiguration.SendOnly();
             return endpointConfiguration;
