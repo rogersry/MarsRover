@@ -1,4 +1,5 @@
-﻿using MarsRoverMessages;
+﻿using Azure.Core;
+using MarsRoverMessages;
 using Microsoft.Azure.Amqp.Transaction;
 using NServiceBus;
 using System.Device.Gpio;
@@ -38,64 +39,69 @@ namespace MarsRoverPi.Handlers.NSB
 
         public async Task Handle(MoveRoverRequestMessage message, IMessageHandlerContext context)
         {
-            _logger.LogInformation($"MoveRoverHandler - Received MoveRoverMessage.  Direction: {message.Direction}.  Milliseconds: {message.Milliseconds}");
+            var messageJsonString = System.Text.Json.JsonSerializer.Serialize(message);
+            _logger.LogInformation($"MoveRoverHandler - Received MoveRoverMessage.  {messageJsonString}");
             try
             {
-                switch (message.Direction)
+                foreach(var step in message.MoveRoverRequestMessageSteps)
                 {
-                    case Direction.Left:
-                        _logger.LogInformation("Turning Left");
-                        Parallel.Invoke(
-                            () =>
-                            {
-                                _leftMotor.Reverse(message.Milliseconds);
-                            },
-                            () =>
-                            {
-                                _rightMotor.Forward(message.Milliseconds);
-                            }
-                        );
-                        break;
-                    case Direction.Right:
-                        _logger.LogInformation("Turning Right");
-                        Parallel.Invoke(
-                            () =>
-                            {
-                                _leftMotor.Forward(message.Milliseconds);
-                            },
-                            () =>
-                            {
-                                _rightMotor.Reverse(message.Milliseconds);
-                            }
-                        );
-                        break;
-                    case Direction.Forward:
-                        _logger.LogInformation("Moving Forward");
-                        Parallel.Invoke(
-                            () =>
-                            {
-                                _leftMotor.Forward(message.Milliseconds);
-                            },
-                            () =>
-                            {
-                                _rightMotor.Forward(message.Milliseconds);
-                            }
-                        );
-                        break;
-                    case Direction.Reverse:
-                        _logger.LogInformation("Moving Reverse");
-                        Parallel.Invoke(
-                            () =>
-                            {
-                                _leftMotor.Reverse(message.Milliseconds);
-                            },
-                            () =>
-                            {
-                                _rightMotor.Reverse(message.Milliseconds);
-                            }
-                        );
-                        break;
+                    switch (step.Direction)
+                    {
+                        case Direction.Left:
+                            _logger.LogInformation("Turning Left");
+                            Parallel.Invoke(
+                                () =>
+                                {
+                                    _leftMotor.Reverse(step.Milliseconds);
+                                },
+                                () =>
+                                {
+                                    _rightMotor.Forward(step.Milliseconds);
+                                }
+                            );
+                            break;
+                        case Direction.Right:
+                            _logger.LogInformation("Turning Right");
+                            Parallel.Invoke(
+                                () =>
+                                {
+                                    _leftMotor.Forward(step.Milliseconds);
+                                },
+                                () =>
+                                {
+                                    _rightMotor.Reverse(step.Milliseconds);
+                                }
+                            );
+                            break;
+                        case Direction.Forward:
+                            _logger.LogInformation("Moving Forward");
+                            Parallel.Invoke(
+                                () =>
+                                {
+                                    _leftMotor.Forward(step.Milliseconds);
+                                },
+                                () =>
+                                {
+                                    _rightMotor.Forward(step.Milliseconds);
+                                }
+                            );
+                            break;
+                        case Direction.Reverse:
+                            _logger.LogInformation("Moving Reverse");
+                            Parallel.Invoke(
+                                () =>
+                                {
+                                    _leftMotor.Reverse(step.Milliseconds);
+                                },
+                                () =>
+                                {
+                                    _rightMotor.Reverse(step.Milliseconds);
+                                }
+                            );
+                            break;
+                    }
                 }
+                
                 _logger.LogInformation("MoveRoverHandler - Handled MoveRoverMessage.");
             }
             catch (Exception ex)
@@ -106,7 +112,7 @@ namespace MarsRoverPi.Handlers.NSB
                 await context.Send(roverErrorMessage);
                 return;
             }
-            var moveRoverResponseMessage = new MoveRoverResponseMessage($"Rover move complete - Direction: {message.Direction}.  Milliseconds: {message.Milliseconds}", DateTime.Now);
+            var moveRoverResponseMessage = new MoveRoverResponseMessage($"Rover move complete {messageJsonString}", DateTime.Now);
             await context.Send(moveRoverResponseMessage);
         }
     }

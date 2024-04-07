@@ -8,7 +8,7 @@ namespace MarsRoverApi.Core.AutoMapper
     {
         public MoveRoverProfile()
         {
-            CreateMap<MoveRoverCommand, MoveRoverRequestMessage>();
+            CreateMap<MoveRoverCommandStep, MoveRoverRequestMessageStep>();
         }
     }
 }

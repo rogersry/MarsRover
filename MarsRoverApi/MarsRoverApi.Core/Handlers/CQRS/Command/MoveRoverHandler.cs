@@ -10,6 +10,15 @@ namespace MarsRoverApi.Core.Handlers.CQRS.Command
 {
     public class MoveRoverCommand : IRequest<bool>
     {
+        public List<MoveRoverCommandStep> MoveRoverCommandSteps { get; set; }
+        public MoveRoverCommand()
+        {
+            MoveRoverCommandSteps = new List<MoveRoverCommandStep>();
+        }
+    }
+
+    public class MoveRoverCommandStep
+    {
         [Required]
         [EnumDataType(typeof(Direction))]
         public Direction Direction { get; set; }
@@ -39,14 +48,20 @@ namespace MarsRoverApi.Core.Handlers.CQRS.Command
 
         public async Task<bool> Handle(MoveRoverCommand request, CancellationToken cancellationToken)
         {
-            var message = _mapper.Map<MoveRoverRequestMessage>(request);
-
-            _logger.LogInformation($"MoveRoverHandler - Sending MoveRoverMessage to Rover.  Direction: {request.Direction}.  Milliseconds: {request.Milliseconds}");
+            var requestJsonString = System.Text.Json.JsonSerializer.Serialize(request);
+            _logger.LogInformation($"MoveRoverHandler - Sending MoveRoverMessage to Rover.  {requestJsonString}");
+            
             try
             {
+                var message = new MoveRoverRequestMessage();
 
+                foreach (var step in request.MoveRoverCommandSteps)
+                {
+                    var moveRoverRequestMessageStep = _mapper.Map<MoveRoverRequestMessageStep>(step);
+                    message.MoveRoverRequestMessageSteps.Add(moveRoverRequestMessageStep);
+                }
+            
                 await _messageSession.Send(message);
-
             }
             catch (Exception ex)
             {
