@@ -1,6 +1,7 @@
 using MarsRoverApi.Core.AutoMapper;
 using MarsRoverApi.Core.Handlers.CQRS.Command;
 using MarsRoverMessages;
+using Microsoft.Extensions.Options;
 using NServiceBus;
 
 internal class Program
@@ -26,6 +27,15 @@ internal class Program
             return endpointConfiguration;
         });
 
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy(name: "CorsPolicy",
+                              policy =>
+                              {
+                                  policy.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod();
+                              });
+        });
+
         // Add services to the container.
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -44,7 +54,7 @@ internal class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
-        
+        app.UseCors("CorsPolicy");
         app.UseHttpsRedirection();
 
         app.UseAuthorization();

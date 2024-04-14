@@ -24,7 +24,7 @@ namespace MarsRoverApi.Core.Handlers.CQRS.Command
         public Direction Direction { get; set; }
 
         [Required]
-        [Range(-10000, 10000)]
+        [Range(0, 10000)]
         public int Milliseconds { get; set; }
     }
 
