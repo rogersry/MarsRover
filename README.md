@@ -1,6 +1,8 @@
 # MarsRover
 
-*Work in progress - Successfully made the rover move in all directions from Angular UI -> Api -> NSB -> Raspberry Pi
+*Work in progress 
+    - Successfully made the rover move in all directions from Angular UI -> Api -> NSB -> Raspberry Pi
+    - 3D printed all parts except for DC Motors
 
 The MarsRover project will mimic the Mars Rover on a smaller scale.  
 
