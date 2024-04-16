@@ -3,21 +3,11 @@ using MarsRoverMessages;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using NServiceBus;
-using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace MarsRoverApi.Core.Handlers.CQRS.Command
 {
-    public class MoveRoverCommand : IRequest<bool>
-    {
-        public List<MoveRoverCommandStep> MoveRoverCommandSteps { get; set; }
-        public MoveRoverCommand()
-        {
-            MoveRoverCommandSteps = new List<MoveRoverCommandStep>();
-        }
-    }
-
-    public class MoveRoverCommandStep
+    public record MoveRoverCommand : IRequest<bool>
     {
         [Required]
         [EnumDataType(typeof(Direction))]
@@ -48,27 +38,20 @@ namespace MarsRoverApi.Core.Handlers.CQRS.Command
 
         public async Task<bool> Handle(MoveRoverCommand request, CancellationToken cancellationToken)
         {
-            var requestJsonString = System.Text.Json.JsonSerializer.Serialize(request);
-            _logger.LogInformation($"MoveRoverHandler - Sending MoveRoverMessage to Rover.  {requestJsonString}");
-            
+            _logger.LogInformation($"Handling MoveRoverCommand: {request}");
+
             try
             {
-                var message = new MoveRoverRequestMessage();
-
-                foreach (var step in request.MoveRoverCommandSteps)
-                {
-                    var moveRoverRequestMessageStep = _mapper.Map<MoveRoverRequestMessageStep>(step);
-                    message.MoveRoverRequestMessageSteps.Add(moveRoverRequestMessageStep);
-                }
-            
+                var message = _mapper.Map<MoveRoverRequestMessage>(request);
+                _logger.LogInformation($"Sending MoveRoverRequestMessage to Rover: {System.Text.Json.JsonSerializer.Serialize(message)}");
                 await _messageSession.Send(message);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"MoveRoverHandler - Error: {ex.Message}");
+                _logger.LogError($"Error Sending MoveRoverMessage to Rover: {ex.Message}");
                 return false;
             }
-            _logger.LogInformation($"MoveRoverHandler - MoveRoverMessage Sent");
+            _logger.LogInformation($"MoveRoverMessage Sent");
             
             return true;
         }
