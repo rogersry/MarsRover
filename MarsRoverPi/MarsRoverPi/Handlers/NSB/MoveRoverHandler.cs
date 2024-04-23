@@ -43,64 +43,62 @@ namespace MarsRoverPi.Handlers.NSB
             _logger.LogInformation($"MoveRoverHandler - Received MoveRoverMessage.  {messageJsonString}");
             try
             {
-                foreach(var step in message.MoveRoverRequestMessageSteps)
+                switch (message.Direction)
                 {
-                    switch (step.Direction)
-                    {
-                        case Direction.Left:
-                            _logger.LogInformation("Turning Left");
-                            Parallel.Invoke(
-                                () =>
-                                {
-                                    _leftMotor.Reverse(step.Milliseconds);
-                                },
-                                () =>
-                                {
-                                    _rightMotor.Forward(step.Milliseconds);
-                                }
-                            );
-                            break;
-                        case Direction.Right:
-                            _logger.LogInformation("Turning Right");
-                            Parallel.Invoke(
-                                () =>
-                                {
-                                    _leftMotor.Forward(step.Milliseconds);
-                                },
-                                () =>
-                                {
-                                    _rightMotor.Reverse(step.Milliseconds);
-                                }
-                            );
-                            break;
-                        case Direction.Forward:
-                            _logger.LogInformation("Moving Forward");
-                            Parallel.Invoke(
-                                () =>
-                                {
-                                    _leftMotor.Forward(step.Milliseconds);
-                                },
-                                () =>
-                                {
-                                    _rightMotor.Forward(step.Milliseconds);
-                                }
-                            );
-                            break;
-                        case Direction.Reverse:
-                            _logger.LogInformation("Moving Reverse");
-                            Parallel.Invoke(
-                                () =>
-                                {
-                                    _leftMotor.Reverse(step.Milliseconds);
-                                },
-                                () =>
-                                {
-                                    _rightMotor.Reverse(step.Milliseconds);
-                                }
-                            );
-                            break;
-                    }
+                    case Direction.Left:
+                        _logger.LogInformation("Turning Left");
+                        Parallel.Invoke(
+                            () =>
+                            {
+                                _leftMotor.Reverse(message.Milliseconds);
+                            },
+                            () =>
+                            {
+                                _rightMotor.Forward(message.Milliseconds);
+                            }
+                        );
+                        break;
+                    case Direction.Right:
+                        _logger.LogInformation("Turning Right");
+                        Parallel.Invoke(
+                            () =>
+                            {
+                                _leftMotor.Forward(message.Milliseconds);
+                            },
+                            () =>
+                            {
+                                _rightMotor.Reverse(message.Milliseconds);
+                            }
+                        );
+                        break;
+                    case Direction.Forward:
+                        _logger.LogInformation("Moving Forward");
+                        Parallel.Invoke(
+                            () =>
+                            {
+                                _leftMotor.Forward(message.Milliseconds);
+                            },
+                            () =>
+                            {
+                                _rightMotor.Forward(message.Milliseconds);
+                            }
+                        );
+                        break;
+                    case Direction.Reverse:
+                        _logger.LogInformation("Moving Reverse");
+                        Parallel.Invoke(
+                            () =>
+                            {
+                                _leftMotor.Reverse(message.Milliseconds);
+                            },
+                            () =>
+                            {
+                                _rightMotor.Reverse(message.Milliseconds);
+                            }
+                        );
+                        break;
                 }
+                
                 
                 _logger.LogInformation("MoveRoverHandler - Handled MoveRoverMessage.");
             }
