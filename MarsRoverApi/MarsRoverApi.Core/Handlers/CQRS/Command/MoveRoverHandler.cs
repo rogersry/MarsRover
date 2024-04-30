@@ -23,32 +23,25 @@ namespace MarsRoverApi.Core.Handlers.CQRS.Command
         Forward, Reverse, Left, Right
     }
 
-    public class MoveRoverHandler : IRequestHandler<MoveRoverCommand, bool>
+    public class MoveRoverHandler(ILogger<MoveRoverHandler> logger, IMapper mapper, IMessageSession messageSession) : IRequestHandler<MoveRoverCommand, bool>
     {
-        private readonly ILogger<MoveRoverHandler> _logger;
-        private readonly IMapper _mapper;
-        private readonly IMessageSession _messageSession;
-
-        public MoveRoverHandler(ILogger<MoveRoverHandler> logger, IMapper mapper, IMessageSession messageSession)
-        {
-            _mapper = mapper;
-            _messageSession = messageSession;
-            _logger = logger;
-        }
+        private readonly ILogger<MoveRoverHandler> _logger = logger;
+        private readonly IMapper _mapper = mapper;
+        private readonly IMessageSession _messageSession = messageSession;
 
         public async Task<bool> Handle(MoveRoverCommand request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"Handling MoveRoverCommand: {request}");
+            _logger.LogInformation("Handling MoveRoverCommand: {request}", request);
 
             try
             {
                 var message = _mapper.Map<MoveRoverRequestMessage>(request);
-                _logger.LogInformation($"Sending MoveRoverRequestMessage to Rover: {System.Text.Json.JsonSerializer.Serialize(message)}");
+                _logger.LogInformation("Sending MoveRoverRequestMessage to Rover: {message}", System.Text.Json.JsonSerializer.Serialize(message));
                 await _messageSession.Send(message);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error Sending MoveRoverMessage to Rover: {ex.Message}");
+                _logger.LogError("Error Sending MoveRoverMessage to Rover: {errorMessage}", ex.Message);
                 return false;
             }
             _logger.LogInformation($"MoveRoverMessage Sent");

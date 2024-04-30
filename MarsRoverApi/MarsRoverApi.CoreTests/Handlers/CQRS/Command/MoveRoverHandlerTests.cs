@@ -11,8 +11,8 @@ namespace MarsRoverApi.Core.Handlers.CQRS.Command.Tests
     [TestClass()]
     public class MoveRoverHandlerTests
     {
-        private static IMapper _mapper = new MapperConfiguration(mc=>mc.AddProfile(new MoveRoverProfile())).CreateMapper();
-        private static Mock<ILogger<MoveRoverHandler>> _mockLogger = new Mock<ILogger<MoveRoverHandler>>();
+        private static readonly IMapper _mapper = new MapperConfiguration(mc=>mc.AddProfile(new MoveRoverProfile())).CreateMapper();
+        private static readonly Mock<ILogger<MoveRoverHandler>> _mockLogger = new();
 
         [TestMethod()]
         public async Task HandleTest()
