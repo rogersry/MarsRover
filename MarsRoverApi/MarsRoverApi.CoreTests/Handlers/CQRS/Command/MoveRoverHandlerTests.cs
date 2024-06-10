@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MarsRoverApi.Core.AutoMapper;
-using MarsRoverMessages;
+using MarsRoverApi.Messages;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -28,7 +28,7 @@ namespace MarsRoverApi.Core.Handlers.CQRS.Command.Tests
             var sentMessage = testableSession.SentMessages[0].Message;
             Assert.IsInstanceOfType<MoveRoverRequestMessage>(sentMessage);
 
-            Assert.AreEqual(MarsRoverMessages.Direction.Forward, ((MoveRoverRequestMessage)sentMessage).Direction);
+            Assert.AreEqual(MarsRoverApi.Messages.Direction.Forward, ((MoveRoverRequestMessage)sentMessage).Direction);
             Assert.AreEqual(1, ((MoveRoverRequestMessage)sentMessage).Milliseconds);
 
             Assert.IsTrue(result);

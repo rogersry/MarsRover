@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using MarsRoverMessages;
+using MarsRoverApi.Messages;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using NServiceBus;

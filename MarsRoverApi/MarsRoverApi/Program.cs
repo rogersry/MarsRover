@@ -1,6 +1,6 @@
 using MarsRoverApi.Core.AutoMapper;
 using MarsRoverApi.Core.Handlers.CQRS.Command;
-using MarsRoverMessages;
+using MarsRoverApi.Messages;
 using Microsoft.Extensions.Options;
 using NServiceBus;
 

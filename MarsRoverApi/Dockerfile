@@ -4,20 +4,24 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
 WORKDIR /app
 EXPOSE 8080
-EXPOSE 8081
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["MarsRoverApi/MarsRoverApi.csproj", "MarsRoverApi/"]
-RUN dotnet restore "./MarsRoverApi/./MarsRoverApi.csproj"
+COPY *.sln ./
+COPY MarsRoverApi/MarsRoverApi.csproj MarsRoverApi/
+COPY MarsRoverApi.Core/MarsRoverApi.Core.csproj MarsRoverApi.Core/
+COPY MarsRoverApi.CoreTests/MarsRoverApi.CoreTests.csproj MarsRoverApi.CoreTests/
+COPY MarsRoverApi.Messages/MarsRoverApi.Messages.csproj MarsRoverApi.Messages/
+RUN dotnet restore
 COPY . .
+
 WORKDIR "/src/MarsRoverApi"
 RUN dotnet build "./MarsRoverApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./MarsRoverApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app

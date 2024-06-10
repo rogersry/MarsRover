@@ -20,12 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MarsRoverApi.Core\MarsRoverApi.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="MarsRoverMessages">
-      <HintPath>..\..\MarsRoverMessages\MarsRoverMessages\bin\Release\netstandard2.0\publish\MarsRoverMessages.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\MarsRoverApi.Messages\MarsRoverApi.Messages.csproj" />
   </ItemGroup>
 
 </Project>

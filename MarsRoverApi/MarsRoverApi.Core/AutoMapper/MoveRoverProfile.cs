@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MarsRoverApi.Core.Handlers.CQRS.Command;
-using MarsRoverMessages;
+using MarsRoverApi.Messages;
 
 namespace MarsRoverApi.Core.AutoMapper
 {
